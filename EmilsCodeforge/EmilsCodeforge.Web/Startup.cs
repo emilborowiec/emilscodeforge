@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics.Eventing.Reader;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Piranha;
 using Piranha.AttributeBuilder;
 using Piranha.AspNetCore.Identity.SQLite;
+using Piranha.Data.EF.MySql;
 using Piranha.Data.EF.SQLite;
 using Piranha.Manager.Editor;
 
@@ -15,14 +18,16 @@ namespace EmilsCodeforge.Web
     public class Startup
     {
         private readonly IConfiguration _config;
+        private readonly IWebHostEnvironment _env;
 
         /// <summary>
         /// Default constructor.
         /// </summary>
         /// <param name="configuration">The current configuration</param>
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             _config = configuration;
+            _env = env ?? throw new ArgumentNullException(nameof(env));
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -39,8 +44,14 @@ namespace EmilsCodeforge.Web
                 options.UseManager();
                 options.UseTinyMCE();
                 options.UseMemoryCache();
-                options.UseEF<SQLiteDb>(db =>
-                    db.UseSqlite(_config.GetConnectionString("piranha")));
+                if (_env.IsDevelopment())
+                {
+                    options.UseEF<SQLiteDb>(db => db.UseSqlite(_config.GetConnectionString("piranha")));
+                }
+                else
+                {
+                    options.UseEF<MySqlDb>(db => db.UseMySql(_config.GetConnectionString("piranha")));
+                }
                 options.UseIdentityWithSeed<IdentitySQLiteDb>(db =>
                     db.UseSqlite(_config.GetConnectionString("piranha")));
 
