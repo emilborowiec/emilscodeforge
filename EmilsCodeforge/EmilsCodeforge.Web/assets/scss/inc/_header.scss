@@ -2,6 +2,7 @@ header {
     background-position: 50% 50%;
     background-size: cover;
     position: relative;
+    background-image: linear-gradient(to right, $hero-start-color, $hero-end-color);
 
     .container {
         padding-top: 7rem;

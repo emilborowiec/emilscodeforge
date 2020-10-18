@@ -7,7 +7,7 @@
     @WebApp.MetaTags(Model)
 }
 
-<header @(hasImage ? "class=has-image" : "") @(hasImage ? $"style=background-image:url({ @Url.Content(WebApp.Media.ResizeImage(Model.PrimaryImage, 1920, 400)) })" : "")>
+<header>
     <div class="dimmer"></div>
     <div class="container text-center">
         <h1>@Model.Title</h1>

@@ -1,17 +1,24 @@
 .navbar.fixed-top {
-    background: #fff;
+    background: $bg-color;
     border-bottom: 1px solid #ddd;
     font-family: Raleway,sans-serif;
     box-shadow: 0 0 2rem rgba(0,0,0,.15);
+    padding-top: 0;
+    padding-bottom: 0;
 
     .navbar-nav {
         font-size: 0.875rem;
         font-weight: bold;
+        color: $main-color;
         text-transform: uppercase;
-
+        
+        a.nav-link {
+            color: $main-color;
+        }
+        
         .active {
-            a {
-                color: #f94c3b;
+            a.nav-link {
+                color: $secondary_color;
             }
         }
     }
