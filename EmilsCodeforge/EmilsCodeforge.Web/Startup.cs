@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.Eventing.Reader;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Piranha;
+using Piranha.AspNetCore.Identity.MySQL;
 using Piranha.AttributeBuilder;
 using Piranha.AspNetCore.Identity.SQLite;
 using Piranha.Data.EF.MySql;
@@ -46,14 +46,14 @@ namespace EmilsCodeforge.Web
                 options.UseMemoryCache();
                 if (_env.IsDevelopment())
                 {
-                    options.UseEF<SQLiteDb>(db => db.UseSqlite(_config.GetConnectionString("piranha")));
+                    options.UseEF<SQLiteDb>(db => db.UseSqlite(_config.GetConnectionString("forgedb")));
+                    options.UseIdentityWithSeed<IdentitySQLiteDb>(db => db.UseSqlite(_config.GetConnectionString("forgedb")));
                 }
                 else
                 {
-                    options.UseEF<MySqlDb>(db => db.UseMySql(_config.GetConnectionString("piranha")));
+                    options.UseEF<MySqlDb>(db => db.UseMySql(_config.GetConnectionString("forgedb")));
+                    options.UseIdentityWithSeed<IdentityMySQLDb>(db => db.UseMySql(_config.GetConnectionString("forgedb")));
                 }
-                options.UseIdentityWithSeed<IdentitySQLiteDb>(db =>
-                    db.UseSqlite(_config.GetConnectionString("piranha")));
 
                 /***
                  * Here you can configure the different permissions
