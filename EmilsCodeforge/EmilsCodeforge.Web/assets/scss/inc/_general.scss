@@ -20,3 +20,8 @@ a {
 h1,h2,h3,h4,h5,h6 {
     color: $main-color;
 }
+pre {
+    color: $text-light-color;
+    background: $code-bg-color;
+    padding: 4px;
+}
